@@ -42,7 +42,7 @@ export function apply(ctx: Context, cfg: Config) {
   ctx.command('查询 <tmpId>').action(async ({ session }, tmpId) => await tmpQuery(ctx, cfg, session, tmpId))
   ctx.command('查询美卡服务器信息').action(async () => await tmpServer(ctx, cfg, 'ATS'))
   ctx.command('查询欧卡服务器信息').action(async () => await tmpServer(ctx, cfg, 'ETS2'))
-  ctx.command('注册 <tmpId>').action(async ({ session }, tmpId) => await tmpBind(ctx, cfg, session, tmpId))
-  ctx.command('查询交通 <serverName>').action(async ({ session }, serverName) => await tmpTraffic(ctx, cfg, serverName))
-  ctx.command('查询位置信息 <tmpId>').action(async ({ session }, tmpId) => await tmpPosition(ctx, cfg, session, tmpId))
+  ctx.command('绑定 <tmpId>').action(async ({ session }, tmpId) => await tmpBind(ctx, cfg, session, tmpId))
+  ctx.command('交通状况查询 <serverName>').action(async ({ session }, serverName) => await tmpTraffic(ctx, cfg, serverName))
+  ctx.command('位置信息查询 <tmpId>').action(async ({ session }, tmpId) => await tmpPosition(ctx, cfg, session, tmpId))
 }
