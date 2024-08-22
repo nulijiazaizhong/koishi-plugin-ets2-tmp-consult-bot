@@ -1,0 +1,38 @@
+{
+  "name": "koishi-plugin-ets2-tmp-consult-bot",
+  
+  "description": "欧洲卡车模拟2 TMP查询插件，只用于自用",
+  "version": "0.5.7",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "homepage": "",
+  "files": [
+    "lib",
+    "dist"
+  ],
+  "license": "MIT",
+  "scripts": {},
+  "keywords": [
+    "chatbot",
+    "koishi",
+    "plugin",
+    "truckersmp",
+    "gametool",
+    "ets2",
+    "tmp"
+  ],
+  "koishi": {
+    "service": {
+      "required": [
+        "database"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "koishi": "^4.17.1"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.10",
+    "js-md5": "^0.8.3"
+  }
+}
