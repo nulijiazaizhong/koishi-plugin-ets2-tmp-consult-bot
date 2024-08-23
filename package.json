@@ -1,17 +1,15 @@
 {
   "name": "koishi-plugin-ets2-tmp-consult-bot",
-  
-  "description": "欧洲卡车模拟2 TMP查询插件，只用于自用",
-  "version": "0.5.7",
+  "description": "ETS2的TMP查询插件，基于tmp-bot修改而来，仅自用",
+  "version": "0.8.7",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
-  "homepage": "",
+  "homepage": "https://github.com/nulijiazaizhong/koishi-plugin-ets2-tmp-consult-bot.git",
   "files": [
     "lib",
     "dist"
   ],
   "license": "MIT",
-  "scripts": {},
   "keywords": [
     "chatbot",
     "koishi",
