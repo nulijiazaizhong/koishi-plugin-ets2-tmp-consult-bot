@@ -13,6 +13,8 @@
 | 查询美卡服务器信息  | 查询美卡服务器信息列表                                                                                                                                                                     | 查询美卡服务器信息    |
 | 查询欧卡服务器信息  | 查询欧卡服务器信息列表                                                                                                                                                                     | 查询欧卡服务器信息    |
 
-
 另外非常感谢非常感谢 [79887143](https://github.com/79887143)提供的api接口，和思路
 >[79887143的koishi-plugin-tmp-bot](https://github.com/79887143/koishi-plugin-tmp-bot?tab=readme-ov-file#koishi-plugin-tmp-bot)
+
+### 更新日志
+- 2024-08-23: 查询指令新增输出Patreon订阅信息
