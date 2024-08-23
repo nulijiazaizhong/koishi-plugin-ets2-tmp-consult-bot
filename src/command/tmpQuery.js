@@ -91,5 +91,13 @@ module.exports = async (ctx, cfg, session, tmpId) => {
     message += '\n🌟Patreon支持者: 否'
   }
 
+  // 添加历史VTC信息
+  if (playerInfo.data.vtcHistory && playerInfo.data.vtcHistory.length > 0) {
+    message += '\n📜历史车队:'
+    playerInfo.data.vtcHistory.forEach(vtc => {
+      message += `\n- ${vtc.name} (加入日期: ${dayjs(vtc.joinDate).format('YYYY年MM月DD日')}, 离开日期: ${dayjs(vtc.leftDate).format('YYYY年MM月DD日')})`
+    })
+  }
+
   return message
 }
