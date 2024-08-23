@@ -85,8 +85,13 @@ module.exports = async (ctx, cfg, session, tmpId) => {
   // 添加Patreon信息
   if (playerInfo.data.patreon && playerInfo.data.patreon.isPatron) {
     message += '\n🌟Patreon支持者: 是'
+<<<<<<<<< Temporary merge branch 1
+    message += '\n💰当前赞助金额: ' + (playerInfo.data.patreon.currentPledge ? (playerInfo.data.patreon.currentPledge / 100) : 0)
+    message += '\n💰全部赞助金额: ' + (playerInfo.data.patreon.lifetimePledge / 100)
+=========
     message += '\n💰当前赞助金额: ' + (playerInfo.data.patreon.currentPledge ? (playerInfo.data.patreon.currentPledge / 100) : 0) + '美元'
     message += '\n💰全部赞助金额: ' + (playerInfo.data.patreon.lifetimePledge / 100) + '美元'
+>>>>>>>>> Temporary merge branch 2
   } else {
     message += '\n🌟Patreon支持者: 否'
   }
