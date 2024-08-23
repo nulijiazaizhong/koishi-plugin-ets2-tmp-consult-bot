@@ -17,5 +17,5 @@
 >[79887143的koishi-plugin-tmp-bot](https://github.com/79887143/koishi-plugin-tmp-bot?tab=readme-ov-file#koishi-plugin-tmp-bot)
 
 ### 更新日志
-- 2024-08-23: 查询指令新增输出Patreon订阅信息
-- 2024-08-23: 查询指令新增输出历史VYC信息
+- 2024-08-23: 查询指令新增输出Patreon赞助信息
+- 2024-08-24: 查询指令新增输出历史VTC信息
