@@ -11,20 +11,24 @@ const common = require('../util/common')
  * 定位
  */
 module.exports = async (ctx, cfg, session, tmpId) => {
-  if (ctx.puppeteer) {
-    if (tmpId && isNaN(tmpId)) {
+  if (!ctx.puppeteer) {
+    return '未启用 puppeteer 服务'
+  }
+
+  if (tmpId && isNaN(tmpId)) {
+    return `请输入正确的玩家编号`
+  }
+
+  // 如果没有传入tmpId，尝试从数据库查询绑定信息
+  if (!tmpId) {
+    let guildBindData = await guildBind.get(ctx.database, session.platform, session.userId)
+    if (!guildBindData) {
       return `请输入正确的玩家编号`
     }
+    tmpId = guildBindData.tmp_id
+  }
 
-    // 如果没有传入tmpId，尝试从数据库查询绑定信息
-    if (!tmpId) {
-      let guildBindData = await guildBind.get(ctx.database, session.platform, session.userId)
-      if (!guildBindData) {
-        return `请输入正确的玩家编号`
-      }
-      tmpId = guildBindData.tmp_id
-    }
-
+  try {
     // 查询玩家信息
     let playerInfo = await truckersMpApi.player(ctx.http, tmpId)
     if (playerInfo.error) {
@@ -33,11 +37,8 @@ module.exports = async (ctx, cfg, session, tmpId) => {
 
     // 查询线上信息
     let playerMapInfo = await truckyAppApi.online(ctx.http, tmpId)
-    if (playerMapInfo.error) {
-      return '查询玩家信息失败，请重试'
-    }
-    if (!playerMapInfo.data.online) {
-      return '玩家离线'
+    if (playerMapInfo.error || !playerMapInfo.data.online) {
+      return playerMapInfo.error ? '查询玩家信息失败，请重试' : '玩家离线'
     }
 
     // 查询周边玩家，并处理数据
@@ -46,15 +47,10 @@ module.exports = async (ctx, cfg, session, tmpId) => {
         playerMapInfo.data.y + 2500,
         playerMapInfo.data.x + 4000,
         playerMapInfo.data.y - 2500)
-    let areaPlayerList = []
-    if (!areaPlayersData.error) {
-      areaPlayerList = areaPlayersData.data
-      let index = areaPlayerList.findIndex((player) => {
-        return player.MpId.toString() === tmpId
-      })
-      if (index !== -1) {
-        areaPlayerList.splice(index, 1)
-      }
+    let areaPlayerList = areaPlayersData.error ? [] : areaPlayersData.data
+    let index = areaPlayerList.findIndex(player => player.MpId.toString() === tmpId)
+    if (index !== -1) {
+      areaPlayerList.splice(index, 1)
     }
     areaPlayerList.push({
       X: playerMapInfo.data.x,
@@ -63,11 +59,11 @@ module.exports = async (ctx, cfg, session, tmpId) => {
     })
 
     // promods服ID集合
-    let promodsServerIdList = [50, 51]
+    const promodsServerIdList = [50, 51]
 
     // 构建地图数据
     let data = {
-      mapType: promodsServerIdList.indexOf(playerMapInfo.data.server) !== -1 ? 'promods' : 'ets',
+      mapType: promodsServerIdList.includes(playerMapInfo.data.server) ? 'promods' : 'ets',
       avatar: playerInfo.data.smallAvatar,
       username: playerInfo.data.name,
       serverName: playerMapInfo.data.serverDetails.name,
@@ -79,29 +75,21 @@ module.exports = async (ctx, cfg, session, tmpId) => {
       playerList: areaPlayerList
     }
 
-    let page
+    let page = await ctx.puppeteer.page()
     try {
-      page = await ctx.puppeteer.page()
       await page.setViewport({ width: 1000, height: 1000 })
       await page.goto(`file:///${resolve(__dirname, '../resource/position.html')}`)
       await page.evaluate(`setData(${JSON.stringify(data)})`)
       await common.sleep(100)
       await page.waitForNetworkIdle()
-      const element = await page.$("#container");
-      return (
-        segment.image(await element.screenshot({
-          encoding: "binary"
-        }), "image/jpg")
-      )
+      const element = await page.$("#container")
+      return segment.image(await element.screenshot({ encoding: "binary" }), "image/jpg")
     } catch (e) {
       return '渲染异常，请重试'
     } finally {
-      if (page) {
-        await page.close()
-      }
+      await page.close()
     }
-
-  } else {
-    return '未启用 puppeteer 服务'
+  } catch (e) {
+    return '查询或渲染过程中发生异常，请重试'
   }
 }
