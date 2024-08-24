@@ -1,10 +1,10 @@
 import { Context, Schema } from 'koishi'
-const model = require('./database/model')
-const tmpQuery = require('./command/tmpQuery')
-const tmpServer = require('./command/tmpServer')
-const tmpBind = require('./command/tmpBind')
-const tmpTraffic = require('./command/tmpTraffic/tmpTraffic')
-const tmpPosition = require('./command/tmpPosition')
+import model from './database/model'
+import tmpQuery from './command/tmpQuery'
+import tmpServer from './command/tmpServer'
+import tmpBind from './command/tmpBind'
+import tmpTraffic from './command/tmpTraffic/tmpTraffic'
+import tmpPosition from './command/tmpPosition'
 
 export const name = 'tmp-bot'
 export const inject = {
@@ -17,6 +17,7 @@ export interface Config {
   baiduTranslateAppId: string
   baiduTranslateKey: string
   baiduTranslateCacheEnable: boolean
+  tmpTrafficType: number
 }
 
 export const Config: Schema<Config> = Schema.intersect([
@@ -30,19 +31,69 @@ export const Config: Schema<Config> = Schema.intersect([
     tmpTrafficType: Schema.union([
       Schema.const(1).description('文字'),
       Schema.const(2).description('热力图')
-    ]).default(1).description('路况信息展示方式'),
+    ]).default(2).description('路况信息展示方式'),
   }).description('指令配置'),
 ])
 
 export function apply(ctx: Context, cfg: Config) {
-  // 初始化数据表
-  model(ctx)
+  try {
+    model(ctx)
+  } catch (error) {
+    console.error('初始化数据表失败:', error)
+    throw error
+  }
 
-  // 注册指令
-  ctx.command('查询 <tmpId>').action(async ({ session }, tmpId) => await tmpQuery(ctx, cfg, session, tmpId))
-  ctx.command('查询美卡服务器信息').action(async () => await tmpServer(ctx, cfg, 'ATS'))
-  ctx.command('查询欧卡服务器信息').action(async () => await tmpServer(ctx, cfg, 'ETS2'))
-  ctx.command('绑定 <tmpId>').action(async ({ session }, tmpId) => await tmpBind(ctx, cfg, session, tmpId))
-  ctx.command('交通状况查询 <serverName>').action(async ({ session }, serverName) => await tmpTraffic(ctx, cfg, serverName))
-  ctx.command('位置信息查询 <tmpId>').action(async ({ session }, tmpId) => await tmpPosition(ctx, cfg, session, tmpId))
+  ctx.command('查询 <tmpId>').action(async ({ session }, tmpId) => {
+    try {
+      return await tmpQuery(ctx, cfg, session, tmpId)
+    } catch (error) {
+      console.error('查询失败:', error)
+      return '查询失败，请稍后再试。'
+    }
+  })
+
+  ctx.command('美卡服务器状态查询').action(async () => {
+    try {
+      return await tmpServer(ctx, cfg, 'ATS')
+    } catch (error) {
+      console.error('查询美卡服务器信息失败:', error)
+      return '查询失败，请稍后再试。'
+    }
+  })
+
+  ctx.command('欧卡服务器状态查询').action(async () => {
+    try {
+      return await tmpServer(ctx, cfg, 'ETS2')
+    } catch (error) {
+      console.error('查询欧卡服务器信息失败:', error)
+      return '查询失败，请稍后再试。'
+    }
+  })
+
+  ctx.command('绑定 <tmpId>').action(async ({ session }, tmpId) => {
+    try {
+      return await tmpBind(ctx, cfg, session, tmpId)
+    } catch (error) {
+      console.error('绑定失败:', error)
+      return '绑定失败，请稍后再试。'
+    }
+  })
+
+  ctx.command('路况信息查询 <serverName>').action(async ({ session }, serverName) => {
+    try {
+      return await tmpTraffic(ctx, cfg, serverName)
+    } catch (error) {
+      console.error('交通状况查询失败:', error)
+      return '查询失败，请稍后再试。'
+    }
+  })
+
+  ctx.command('位置信息查询 <tmpId>').action(async ({ session }, tmpId) => {
+    try {
+      return await tmpPosition(ctx, cfg, session, tmpId)
+    } catch (error) {
+      console.error('位置信息查询失败:', error)
+      return '查询失败，请稍后再试。'
+    }
+  })
 }

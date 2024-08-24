@@ -9,6 +9,7 @@ export interface Config {
     baiduTranslateAppId: string;
     baiduTranslateKey: string;
     baiduTranslateCacheEnable: boolean;
+    tmpTrafficType: number;
 }
 export declare const Config: Schema<Config>;
 export declare function apply(ctx: Context, cfg: Config): void;
