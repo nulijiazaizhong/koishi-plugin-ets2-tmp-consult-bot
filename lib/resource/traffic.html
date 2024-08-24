@@ -25,10 +25,6 @@
       background-color: #4b4b4b;
     }
     .traffic-box {
-      //position: absolute;
-      //bottom: 0;
-      //left: 0;
-      //z-index: 9999999;
       width: 100%;
       backdrop-filter: blur(3px);
       background-color: #4b4b4b;
@@ -73,12 +69,23 @@
       width: 12%;
       text-align: right;
     }
+    #queryTime {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 5px;
+      border-radius: 5px;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
   <div id="container">
     <div id="map" class="map"></div>
     <div class="traffic-box"></div>
+    <div id="queryTime"></div>
   </div>
   <script>
     let mapConfig = {
@@ -100,7 +107,6 @@
         },
         maxZoom: 8,
         minZoom: 2,
-        // 游戏地转地图坐标
         calculateMapCoordinate (x, y) {
           return [
             x / 1.325928 + mapConfig.ets.multipliers.x,
@@ -126,7 +132,6 @@
         },
         maxZoom: 8,
         minZoom: 2,
-        // 游戏地转地图坐标
         calculateMapCoordinate (x, y) {
           return [
             x / 2.598541 + mapConfig.promods.multipliers.x,
@@ -198,6 +203,9 @@
           </div>
         `);
       }
+
+      // 设置查询时间
+      document.getElementById('queryTime').innerText = `查询时间: ${data.queryTime}`;
     }
   </script>
 </body>
