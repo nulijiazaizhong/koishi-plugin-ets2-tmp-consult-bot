@@ -51,6 +51,7 @@ module.exports = async (ctx, cfg, serverName) => {
 
     const data = {
       mapType: serverInfo.mapType,
+      queryTime: new Date().toLocaleString(), // 添加查询时间
       trafficList: await Promise.all(trafficData.data.map(async traffic => ({
         country: await baiduTranslate(ctx, cfg, traffic.country),
         province: await baiduTranslate(ctx, cfg, traffic.name.substring(0, traffic.name.lastIndexOf('(') - 1)),
