@@ -1,7 +1,7 @@
 {
   "name": "koishi-plugin-ets2-tmp-consult-bot",
   "description": "欧洲卡车模拟2 TMP查询插件，只用于自用",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "homepage": "",
