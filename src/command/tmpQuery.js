@@ -3,6 +3,7 @@ const guildBind = require('../database/guildBind')
 const truckersMpApi = require('../api/truckersMpApi')
 const truckyAppApi = require('../api/truckyAppApi')
 const baiduTranslate = require('../util/baiduTranslate')
+const { segment } = require('koishi')
 
 const userGroup = {
   'Player': '玩家',

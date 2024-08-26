@@ -96,4 +96,33 @@ export function apply(ctx: Context, cfg: Config) {
       return '查询失败，请稍后再试。'
     }
   })
+
+  // 新增规则查询命令
+  ctx.command('规则查询 <language>').action(async ({ session }, language) => {
+    const languageMap = {
+      '中文': 'https://truckersmp.com/knowledge-base/article/746',
+      '英文': 'https://truckersmp.com/rules',
+      '德语': 'https://truckersmp.com/knowledge-base/article/713',
+      '法语': 'https://truckersmp.com/knowledge-base/article/744',
+      '西班牙语': 'https://truckersmp.com/knowledge-base/article/708',
+      '俄语': 'https://truckersmp.com/knowledge-base/article/744',
+      '葡萄牙语': 'https://truckersmp.com/knowledge-base/article/706',
+      '波兰语': 'https://truckersmp.com/knowledge-base/article/743',
+      '阿拉伯语': 'https://truckersmp.com/knowledge-base/article/1647',
+      '意大利语': 'https://truckersmp.com/knowledge-base/article/715',
+      '捷克语': 'https://truckersmp.com/knowledge-base/article/715',
+      '匈牙利语': 'https://truckersmp.com/knowledge-base/article/1145',
+      '挪威语': 'https://truckersmp.com/knowledge-base/article/1372',
+      '土耳其语': 'https://truckersmp.com/knowledge-base/article/742',
+      '罗马利亚语': 'https://truckersmp.com/knowledge-base/article/711',
+      '韩语': 'https://truckersmp.com/knowledge-base/article/1646',
+      '繁体中文': 'https://truckersmp.com/knowledge-base/article/746',
+    }
+
+    if (languageMap[language]) {
+      return `${language}版规则：${languageMap[language]}`
+    } else {
+      return '暂不支持该语言版本的规则查询。'
+    }
+  })
 }
