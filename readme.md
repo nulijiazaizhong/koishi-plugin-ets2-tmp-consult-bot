@@ -14,7 +14,7 @@
 | 欧卡服务器状态查询  | 查询欧卡服务器信息列表                                                                                                                 | 欧卡服务器状态查询息    |
 | 规则查询           | 查询服务器规则信息                                                                                                                 | 规则查询 中文           |
 
-另外非常感谢非常感谢 [79887143](https://github.com/79887143)提供的api接口，和思路
+另外非常感谢非常感谢 [79887143](https://github.com/79887143)提供的api接口和思路
 >[79887143的koishi-plugin-tmp-bot](https://github.com/79887143/koishi-plugin-tmp-bot?tab=readme-ov-file#koishi-plugin-tmp-bot)
 
 ### 更新日志
