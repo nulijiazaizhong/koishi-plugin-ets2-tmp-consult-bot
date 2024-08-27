@@ -12,6 +12,7 @@
 | 路况信息查询       | 查询服务器热门地点路况信息，仅支持使用服务器简称查询，具体支持查询的服务器和服务器简称信息如下</br>Simulation 1 (简称: s1)</br>Simulation 2 (简称: s2)</br>ProMods (简称: p)</br>Arcade  (简称: a) | 路况信息查询 s1          |
 | 美卡服务器状态查询  | 查询美卡服务器信息列表                                                                                                                                                                     | 美卡服务器状态查询息    |
 | 欧卡服务器状态查询  | 查询欧卡服务器信息列表                                                                                                                                                                     | 欧卡服务器状态查询息    |
+| 规则查询 | 查询TMP规则 | 规则查询 中文 |
 
 另外非常感谢非常感谢 [79887143](https://github.com/79887143)提供的api接口和思路
 >[79887143的koishi-plugin-tmp-bot](https://github.com/79887143/koishi-plugin-tmp-bot?tab=readme-ov-file#koishi-plugin-tmp-bot)
