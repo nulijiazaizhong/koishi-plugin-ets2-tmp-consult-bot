@@ -5,6 +5,8 @@ import tmpServer from './command/tmpServer'
 import tmpBind from './command/tmpBind'
 import tmpTraffic from './command/tmpTraffic/tmpTraffic'
 import tmpPosition from './command/tmpPosition'
+import axios from 'axios'
+
 
 export const name = 'tmp-bot'
 export const inject = {
@@ -133,4 +135,53 @@ export function apply(ctx: Context, cfg: Config) {
       return '无效的序号，请重新查询。'
     }
   })
+
+  ctx.command('价格查询 <gameName>').action(async ({ session }, gameName) => {
+    try {
+      const encodedGameName = encodeURIComponent(gameName);
+      const apiKey = '9471ab85d82abb1675deec688256b4e52dc0b901';
+      const apiUrl = `https://api.isthereanydeal.com/v1/game/history/${encodedGameName}?key=${apiKey}`;
+
+      const response = await axios.get(apiUrl);
+      const data = response.data;
+
+      if (data && data.data) {
+        const prices = data.data[gameName].price;
+        return `游戏《${gameName}》的历史价格数据：\n${JSON.stringify(prices, null, 2)}`;
+      } else {
+        return '未找到该游戏的价格数据。';
+      }
+    } catch (error) {
+      console.error('价格查询失败:', error);
+      return '价格查询失败，请稍后再试。';
+    }
+  });
+
+  ctx.command('版本查询').action(async () => {
+    try {
+        const response = await axios.get('https://api.truckersmp.com/v2/version');
+        const versionInfo = response.data;
+
+        if (versionInfo) {
+            // 提取信息
+            const time = versionInfo.time;
+            const supportedGameVersion = versionInfo.supported_game_version;
+            const supportedAtsGameVersion = versionInfo.supported_ats_game_version;
+
+            // 格式化返回信息
+            const versionMessage = `
+            查询时间：${time}
+            支持的欧卡版本：${supportedGameVersion}
+            支持的美卡版本：${supportedAtsGameVersion}
+            `;
+            return versionMessage.trim(); // 去除多余空白
+        } else {
+            return '未找到版本信息。';
+        }
+    } catch (error) {
+        console.error('版本查询失败:', error);
+        return '版本查询失败，请稍后再试。';
+    }
+  });
+
 }
