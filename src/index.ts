@@ -185,7 +185,7 @@ export function apply(ctx: Context, cfg: Config) {
         }
     } catch (error) {
         console.error('版本查询失败:', error);
-        return '版本查询失败，请稍后再试。';
+        return '版本查询失败，版本正在更新。';
     }
 });
 
