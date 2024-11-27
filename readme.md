@@ -18,6 +18,8 @@
 另外非常感谢 [79887143](https://github.com/79887143)提供的api接口和思路
 >[79887143的koishi-plugin-tmp-bot](https://github.com/79887143/koishi-plugin-tmp-bot?tab=readme-ov-file#koishi-plugin-tmp-bot)
 
+ps：如果在查询路况信息时出现错误，可再次尝试使用服务器简称查询，此问题大概率是由于服务器缓存问题导致
+
 ### 更新日志
 - 2024-08-23: 查询指令新增输出Patreon订阅信息
 - 2024-08-24: 查询指令新增输出历史VTC信息
